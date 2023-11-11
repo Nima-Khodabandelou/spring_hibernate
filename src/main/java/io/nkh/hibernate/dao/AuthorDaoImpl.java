@@ -1,6 +1,9 @@
 package io.nkh.hibernate.dao;
 
 import io.nkh.hibernate.domain.Author;
+import io.nkh.hibernate.repositories.AuthorRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,9 +11,17 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AuthorDaoImpl implements AuthorDao {
+
+    // EntityManagerFactory: JPA equivalent of session factory. It's a heavy obj to create
+    private final EntityManagerFactory emf;
+
+    public AuthorDaoImpl(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
+
     @Override
     public Author getById(Long id) {
-        return null;
+        return getEntityManager().find(Author.class, id);
     }
 
     @Override
@@ -31,5 +42,10 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public void deleteAuthorById(Long id) {
 
+    }
+
+    // EntityManager: JPA equivalent of session. It's lightweight
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
     }
 }
