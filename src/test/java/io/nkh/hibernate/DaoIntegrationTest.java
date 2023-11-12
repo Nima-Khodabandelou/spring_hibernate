@@ -31,4 +31,25 @@ public class DaoIntegrationTest {
         Author author = authorDao.findAuthorByName("author1 fName", "author1 lName");
         assertThat(author).isNotNull();
     }
+
+    @Test
+    void testSaveNewAuthor() {
+        Author author = new Author();
+        author.setFirstName("author2f");
+        author.setLastName("author2l");
+        Author saved = authorDao.saveNewAuthor(author);
+        assertThat(saved).isNotNull();
+        assertThat(saved.getId()).isNotNull();
+    }
+
+    @Test
+    void testUpdateAuthor() {
+        Author author = new Author();
+        author.setFirstName("author4f");
+        author.setLastName("author4l");
+        Author saved = authorDao.saveNewAuthor(author);
+        saved.setLastName("author44l");
+        Author updated = authorDao.updateAuthor(saved);
+        assertThat(updated.getLastName()).isEqualTo("author44l");
+    }
 }

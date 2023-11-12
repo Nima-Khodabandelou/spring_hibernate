@@ -38,12 +38,28 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author saveNewAuthor(Author author) {
-        return null;
+
+        EntityManager em = getEntityManager();
+        // em.joinTransaction(); // will throws exc if no transaction is in progress
+        em.getTransaction().begin();
+        em.persist(author);
+        em.flush(); // we tell Hibernate to update the DB
+        em.getTransaction().commit();
+
+        return author;
     }
 
     @Override
     public Author updateAuthor(Author author) {
-        return null;
+        EntityManager em = getEntityManager();
+        em.joinTransaction();
+        em.merge(author);
+        em.flush();
+        em.clear(); // clear 1st level cache
+
+        // Since em.flush() was executed, in the following, Hib will load DB to find Id rather than using 1st level
+        // cache which is cleared
+        return em.find(Author.class, author.getId());
     }
 
     @Override
