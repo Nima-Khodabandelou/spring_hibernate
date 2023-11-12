@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -51,5 +53,19 @@ public class DaoIntegrationTest {
         saved.setLastName("author44l");
         Author updated = authorDao.updateAuthor(saved);
         assertThat(updated.getLastName()).isEqualTo("author44l");
+    }
+
+    @Test
+    void testDeleteAuthorById() {
+        Author author = new Author();
+        author.setFirstName("author6f");
+        author.setLastName("author6l");
+        Author saved = authorDao.saveNewAuthor(author);
+        authorDao.deleteAuthorById(saved.getId());
+
+        Author deleted = authorDao.getById(saved.getId());
+        assertThat(deleted).isNull();
+
+        assertThat(authorDao.getById(saved.getId()));
     }
 }
