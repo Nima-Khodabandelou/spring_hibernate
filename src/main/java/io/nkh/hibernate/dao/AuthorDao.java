@@ -3,6 +3,8 @@ package io.nkh.hibernate.dao;
 
 import io.nkh.hibernate.domain.Author;
 
+import java.util.List;
+
 /**
  * Created by jt on 8/22/21.
  */
@@ -16,4 +18,8 @@ public interface AuthorDao {
     Author updateAuthor(Author author);
 
     void deleteAuthorById(Long id);
+
+    List<Author> listOfAuthorByLastNameSuchAs(String lastName);
+
+    List<Author> findAll();
 }

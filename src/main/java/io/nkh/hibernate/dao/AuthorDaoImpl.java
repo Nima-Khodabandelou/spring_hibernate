@@ -4,8 +4,11 @@ import io.nkh.hibernate.domain.Author;
 import io.nkh.hibernate.repositories.AuthorRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Created by jt on 8/28/21.
@@ -70,6 +73,34 @@ public class AuthorDaoImpl implements AuthorDao {
         em.remove(author);
         em.flush();
         em.getTransaction().commit();
+    }
+
+    @Override
+    public List<Author> listOfAuthorByLastNameSuchAs(String lastName) {
+
+        EntityManager em = getEntityManager();
+
+        try {
+            Query query = em.createQuery("SELECT a FROM Author a WHERE a.lastName LIKE :last_name");
+            query.setParameter("last_name", lastName + "%");
+            List<Author> authors = query.getResultList();
+
+            return authors;
+        } finally {
+            em.close();;
+        }
+    }
+
+    @Override
+    public List<Author> findAll() {
+        EntityManager em = getEntityManager();
+
+        try {
+            TypedQuery<Author> typedQuery = em.createNamedQuery("author_find_all", Author.class);
+            return typedQuery.getResultList();
+        } finally {
+            em.close();
+        }
     }
 
     // EntityManager: JPA equivalent of session. It's lightweight
