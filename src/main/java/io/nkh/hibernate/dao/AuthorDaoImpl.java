@@ -8,6 +8,7 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -31,12 +32,21 @@ public class AuthorDaoImpl implements AuthorDao {
     @Override
     public Author findAuthorByName(String firstName, String lastName) {
 
-        String sql = "SELECT a FROM Author a WHERE a.firstName = :first_name AND a.lastName = :last_name";
-        TypedQuery<Author> query = getEntityManager().createQuery(sql, Author.class);
+        // String sql = "SELECT a FROM Author a WHERE a.firstName = :first_name AND a.lastName = :last_name";
+        // TypedQuery<Author> query = getEntityManager().createQuery(sql, Author.class);
+        // query.setParameter("first_name", firstName);
+        // query.setParameter("last_name", lastName);
+
+        EntityManager em = getEntityManager();
+        TypedQuery<Author> query = em.createNamedQuery("find_by_name", Author.class);
+
         query.setParameter("first_name", firstName);
         query.setParameter("last_name", lastName);
 
-        return query.getSingleResult();
+        Author author = query.getSingleResult();
+        em.close();
+
+        return author;
     }
 
     @Override
