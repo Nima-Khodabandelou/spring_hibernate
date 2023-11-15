@@ -24,4 +24,6 @@ public interface AuthorDao {
     List<Author> findAll();
 
     Author findAuthorByNameCriteria(String firstName, String lastName);
+
+    Author FindAuthorByNameNative(String firstName, String lastName);
 }

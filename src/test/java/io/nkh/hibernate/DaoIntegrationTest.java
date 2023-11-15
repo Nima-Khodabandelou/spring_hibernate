@@ -109,4 +109,10 @@ public class DaoIntegrationTest {
         Author found = authorDao.findAuthorByNameCriteria("author1 fName", "author1 lName");
         assertThat(found).isNotNull();
     }
+
+    @Test
+    void testFindAuthorByNameNative() {
+        Author found = authorDao.FindAuthorByNameNative("author1 fName", "author1 lName");
+        assertThat(found).isNotNull();
+    }
 }
