@@ -103,4 +103,10 @@ public class DaoIntegrationTest {
         assertThat(authors).isNotNull();
         assertThat(authors.size()).isGreaterThan(0);
     }
+
+    @Test
+    void testFindAuthorByNameCriteria() {
+        Author found = authorDao.findAuthorByNameCriteria("author1 fName", "author1 lName");
+        assertThat(found).isNotNull();
+    }
 }

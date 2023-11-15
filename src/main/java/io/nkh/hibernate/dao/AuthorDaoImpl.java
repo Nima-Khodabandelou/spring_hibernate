@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
@@ -47,6 +48,36 @@ public class AuthorDaoImpl implements AuthorDao {
         em.close();
 
         return author;
+    }
+
+    @Override
+    public Author findAuthorByNameCriteria(String firstName, String lastName) {
+
+        EntityManager em = getEntityManager();
+
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Author> cq = cb.createQuery(Author.class);
+
+            Root<Author> root = cq.from(Author.class);
+
+            ParameterExpression<String> firstNameParam = cb.parameter(String.class);
+            ParameterExpression<String> lastNameParam = cb.parameter(String.class);
+
+            Predicate firstNamePred = cb.equal(root.get("firstName"), firstNameParam);
+            Predicate lastNamePred = cb.equal(root.get("lastName"), lastNameParam);
+
+            cq.select(root).where(cb.and(firstNamePred, lastNamePred));
+
+            TypedQuery<Author> tq = em.createQuery(cq);
+            // bind params
+            tq.setParameter(firstNameParam, firstName);
+            tq.setParameter(lastNameParam, lastName);
+
+            return tq.getSingleResult();
+        } finally {
+            em.close();
+        }
     }
 
     @Override

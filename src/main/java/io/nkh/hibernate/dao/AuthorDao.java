@@ -22,4 +22,6 @@ public interface AuthorDao {
     List<Author> listOfAuthorByLastNameSuchAs(String lastName);
 
     List<Author> findAll();
+
+    Author findAuthorByNameCriteria(String firstName, String lastName);
 }
