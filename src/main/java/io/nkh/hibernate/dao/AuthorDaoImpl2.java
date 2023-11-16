@@ -2,6 +2,7 @@ package io.nkh.hibernate.dao;
 
 import io.nkh.hibernate.domain.Author;
 import io.nkh.hibernate.repositories.AuthorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,8 @@ public class AuthorDaoImpl2 implements AuthorDao {
 
     @Override
     public Author findAuthorByName(String firstName, String lastName) {
-        return null;
+        return authorRepository.findAuthorByFirstNameAndLastName(firstName, lastName)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

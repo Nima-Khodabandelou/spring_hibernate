@@ -3,6 +3,7 @@ package io.nkh.hibernate;
 
 import io.nkh.hibernate.dao.AuthorDao;
 import io.nkh.hibernate.domain.Author;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,25 @@ public class SdjDaoIntegrationTest {
 
         assertThrows(JpaObjectRetrievalFailureException.class, () -> {
             Author deleted = authorDao.getById(saved.getId());
+        });
+    }
+
+    @Test
+    void testFindAuthorByName() {
+        Author author = new Author();
+        author.setFirstName("new author f13");
+        author.setLastName("new author l13");
+
+        Author saved = authorDao.saveNewAuthor(author);
+
+        Author found = authorDao.findAuthorByName(saved.getFirstName(), saved.getLastName());
+        assertThat(found).isNotNull();
+    }
+
+    @Test
+    void testGetAuthorByNameNotFound() {
+        assertThrows(EntityNotFoundException.class, () -> {
+           Author author = authorDao.findAuthorByName("auth", "nam");
         });
     }
 }
