@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * Created by jt on 8/28/21.
  */
+//@Primary
 @Component
 public class AuthorDaoImpl implements AuthorDao {
 
