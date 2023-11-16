@@ -11,6 +11,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -22,6 +25,16 @@ public class BookRepositoryTest {
 
     @Autowired
     BookRepository bookRepository;
+
+    @Test
+    void testBookStream() {
+        AtomicInteger count = new AtomicInteger();
+        bookRepository.findAllByTitleNotNull().forEach(book -> {
+            count
+                    .incrementAndGet();
+        });
+        assertThat(count.get()).isGreaterThan(1);
+    }
 
     @Test
     void testEmptyResultException() {
