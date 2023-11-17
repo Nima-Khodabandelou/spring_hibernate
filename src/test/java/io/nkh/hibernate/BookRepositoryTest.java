@@ -28,6 +28,18 @@ public class BookRepositoryTest {
     BookRepository bookRepository;
 
     @Test
+    void testFindBookByTitleWithQuery() {
+        Book book = bookRepository.findBookByTitleWithQuery("Clean Code");
+        assertThat(book).isNotNull();
+    }
+
+    @Test
+    void testFindBookByTitleWithQueryNamed() {
+        Book book = bookRepository.findBookByTitleWithQueryNamed("Clean Code");
+        assertThat(book).isNotNull();
+    }
+
+    @Test
     void testBookStream() {
         AtomicInteger count = new AtomicInteger();
         bookRepository.findAllByTitleNotNull().forEach(book -> {
