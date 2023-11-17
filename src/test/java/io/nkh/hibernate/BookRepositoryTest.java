@@ -40,6 +40,18 @@ public class BookRepositoryTest {
     }
 
     @Test
+    void testFindBookByTitleWithNativeQuery() {
+        Book book = bookRepository.findBookByTitleWithNativeQuery("Clean Code");
+        assertThat(book).isNotNull();
+    }
+
+    @Test
+    void testJpaNamed() {
+        Book book = bookRepository.jpaNamed("Clean Code");
+        assertThat(book).isNotNull();
+    }
+
+    @Test
     void testBookStream() {
         AtomicInteger count = new AtomicInteger();
         bookRepository.findAllByTitleNotNull().forEach(book -> {
