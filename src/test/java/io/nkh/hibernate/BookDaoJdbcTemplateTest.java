@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -37,5 +39,47 @@ public class BookDaoJdbcTemplateTest {
         List<Book> books = bookDao.findAllBooks();
         assertThat(books).isNotNull();
         assertThat(books.size()).isGreaterThan(1);
+    }
+
+    @Test
+    void testFindAllBooksPage1_pageable() {
+        List<Book> books = bookDao.findAllBooks(PageRequest.of(0, 10));
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isEqualTo(10);
+    }
+
+    @Test
+    void testFindAllBooksPage2_pageable() {
+        List<Book> books = bookDao.findAllBooks(PageRequest.of(2, 3));
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isEqualTo(3);
+    }
+
+    @Test
+    void testFindAllBooksPage10_pageable() {
+        List<Book> books = bookDao.findAllBooks(PageRequest.of(7, 2));
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isEqualTo(0);
+    }
+
+    @Test
+    void testFindAllBooksPage1() {
+        List<Book> books = bookDao.findAllBooks(10, 0);
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isEqualTo(10);
+    }
+
+    @Test
+    void testFindAllBooksPage2() {
+        List<Book> books = bookDao.findAllBooks(5, 3);
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isEqualTo(5);
+    }
+
+    @Test
+    void testFindAllBooksPage10() {
+        List<Book> books = bookDao.findAllBooks(10, 100);
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isEqualTo(0);
     }
 }

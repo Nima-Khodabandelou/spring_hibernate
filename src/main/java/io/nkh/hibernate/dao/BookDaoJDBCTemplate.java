@@ -1,6 +1,7 @@
 package io.nkh.hibernate.dao;
 
 import io.nkh.hibernate.domain.Book;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +17,21 @@ public class BookDaoJDBCTemplate implements BookDao2 {
     }
 
     @Override
+    public List<Book> findAllBooks(Pageable pageable) {
+        return jdbcTemplate.query("SELECT * FROM book LIMIT ? OFFSET ?", getBookMapper(),
+                pageable.getPageSize(), pageable.getOffset());
+    }
+
+    @Override
+    public List<Book> findAllBooks(int pageSize, int offset) {
+        return jdbcTemplate.query("SELECT * FROM book LIMIT ? OFFSET ?", getBookMapper(), pageSize, offset);
+    }
+
+    @Override
     public List<Book> findAllBooks() {
         return jdbcTemplate.query("SELECT * FROM book", getBookMapper());
     }
+
 /*
     @Override
     public Book getById(Long id) {
