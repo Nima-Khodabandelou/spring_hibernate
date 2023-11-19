@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface BookDao2 {
 
+    List<Book> findAllBooksSortByTitle(Pageable pageable);
+
     List<Book> findAllBooks(Pageable pageable);
 
     List<Book> findAllBooks(int pageSize, int offset);
