@@ -44,7 +44,7 @@ public class BookDaoJdbcTemplateTest {
 
     @Test
     void testFindAllBooksPage1_SortByTitle() {
-        List<Book> books = bookDao.findAllBooks(PageRequest.of(0, 10,
+        List<Book> books = bookDao.findAllBooksSortByTitle(PageRequest.of(0, 10,
                 Sort.by(Sort.Order.desc("title"))));
         assertThat(books).isNotNull();
         assertThat(books.size()).isEqualTo(10);

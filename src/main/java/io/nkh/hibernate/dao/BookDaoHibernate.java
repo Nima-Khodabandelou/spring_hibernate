@@ -3,17 +3,68 @@ package io.nkh.hibernate.dao;
 import io.nkh.hibernate.domain.Book;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-public class BookDaoImpl implements BookDao {
+public class BookDaoHibernate implements BookDao {
 
     private final EntityManagerFactory emf;
 
-    public BookDaoImpl(EntityManagerFactory emf) {
+    public BookDaoHibernate(EntityManagerFactory emf) {
         this.emf = emf;
+    }
+
+    @Override
+    public List<Book> findAllBooksSortByTitle(Pageable pageable) {
+
+        EntityManager em = getEntityManager();
+
+        try {
+
+            String hql = "SELECT b FROM Book b ORDER BY b.title"
+                    + pageable.getSort().getOrderFor("title").getDirection().name();
+
+            TypedQuery query = em.createQuery(hql, Book.class);
+            query.setFirstResult(Math.toIntExact(pageable.getOffset()));
+            query.setMaxResults(Math.toIntExact(pageable.getPageSize()));
+
+            return query.getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Book> findAllBooks(Pageable pageable) {
+
+        EntityManager em = getEntityManager();
+
+        try {
+
+            TypedQuery query = em.createQuery("SELECT b FROM Book b", Book.class);
+            query.setFirstResult(Math.toIntExact(pageable.getOffset()));
+            query.setMaxResults(Math.toIntExact(pageable.getPageSize()));
+
+            return query.getResultList();
+
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Book> findAllBooks(int pageSize, int offset) {
+        return null;
+    }
+
+    @Override
+    public List<Book> findAllBooks() {
+        return null;
     }
 
     @Override
