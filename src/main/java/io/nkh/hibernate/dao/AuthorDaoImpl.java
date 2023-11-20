@@ -8,6 +8,7 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
@@ -50,6 +51,11 @@ public class AuthorDaoImpl implements AuthorDao {
         em.close();
 
         return author;
+    }
+
+    @Override
+    public List<Author> findAuthorsByLastName(String lastName, Pageable pageable) {
+        return null;
     }
 
     @Override

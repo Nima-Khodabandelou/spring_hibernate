@@ -11,8 +11,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -77,6 +80,13 @@ public class SdjDaoIntegrationTest {
 
         Author found = authorDao.findAuthorByName(saved.getFirstName(), saved.getLastName());
         assertThat(found).isNotNull();
+    }
+
+    @Test
+    void findAuthorsByLastName() {
+        List<Author> authors = authorDao.findAuthorsByLastName("author6l", PageRequest.of(0, 4));
+
+        assertThat(authors).isNotNull();
     }
 
     @Test

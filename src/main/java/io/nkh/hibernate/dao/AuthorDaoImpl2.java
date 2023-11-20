@@ -5,6 +5,8 @@ import io.nkh.hibernate.repositories.AuthorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,6 +30,11 @@ public class AuthorDaoImpl2 implements AuthorDao {
     public Author findAuthorByName(String firstName, String lastName) {
         return authorRepository.findAuthorByFirstNameAndLastName(firstName, lastName)
                 .orElseThrow(EntityNotFoundException::new);
+    }
+
+    @Override
+    public List<Author> findAuthorsByLastName(String lastName, Pageable pageable) {
+        return authorRepository.findAuthorByLastName(lastName, pageable).getContent();
     }
 
     @Override

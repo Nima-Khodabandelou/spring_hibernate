@@ -33,4 +33,13 @@ class BookDaoSdjpaTest {
         assertThat(books).isNotNull();
         assertThat(books.size()).isEqualTo(4);
     }
+
+    @Test
+    void findAllBooksSortByTitle() {
+        List<Book> books = bookDao.findAllBooksSortByTitle(PageRequest
+                .of(0, 4, Sort.by(Sort.Order.desc("title"))));
+
+        assertThat(books).isNotNull();
+        assertThat(books.size()).isEqualTo(4);
+    }
 }
