@@ -44,6 +44,8 @@ public class OrderHeader extends BaseEntity {
     private String customer;
     private Address shippingAddress;
     private Address billToAddress;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
     public String getCustomer() {
         return customer;
@@ -53,18 +55,43 @@ public class OrderHeader extends BaseEntity {
         this.customer = customer;
     }
 
+    public Address getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(Address shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public Address getBillToAddress() {
+        return billToAddress;
+    }
+
+    public void setBillToAddress(Address billToAddress) {
+        this.billToAddress = billToAddress;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof OrderHeader)) return false;
         if (!super.equals(o)) return false;
         OrderHeader that = (OrderHeader) o;
-        return Objects.equals(getCustomer(), that.getCustomer()) && Objects.equals(shippingAddress,
-                that.shippingAddress) && Objects.equals(billToAddress, that.billToAddress);
+        return Objects.equals(getCustomer(), that.getCustomer()) && Objects.equals(getShippingAddress(),
+                that.getShippingAddress()) && Objects.equals(getBillToAddress(),
+                that.getBillToAddress()) && getOrderStatus() == that.getOrderStatus();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getCustomer(), shippingAddress, billToAddress);
+        return Objects.hash(super.hashCode(), getCustomer(), getShippingAddress(), getBillToAddress(), getOrderStatus());
     }
 }
