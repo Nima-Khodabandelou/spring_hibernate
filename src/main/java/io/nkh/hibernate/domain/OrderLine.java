@@ -35,12 +35,11 @@ public class OrderLine extends BaseEntity {
         if (!(o instanceof OrderLine)) return false;
         if (!super.equals(o)) return false;
         OrderLine orderLine = (OrderLine) o;
-        return Objects.equals(getQuantityOrdered(), orderLine.getQuantityOrdered()) && Objects.equals(getOrderHeader(),
-                orderLine.getOrderHeader());
+        return Objects.equals(getQuantityOrdered(), orderLine.getQuantityOrdered()) && Objects.equals(getOrderHeader(), orderLine.getOrderHeader());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getQuantityOrdered(), getOrderHeader());
+        return Objects.hash(super.hashCode(), getQuantityOrdered());
     }
 }
