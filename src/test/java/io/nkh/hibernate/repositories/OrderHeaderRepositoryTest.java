@@ -47,10 +47,10 @@ class OrderHeaderRepositoryTest {
         orderLine.setQuantityOrdered(5);
         orderLine.setProduct(product);
 
-        var x= Set.of(orderLine);
+        //orderHeader.setOrderLines(Set.of(orderLine));
+        //orderLine.setOrderHeader(orderHeader);
 
-        orderHeader.setOrderLines(x);
-        orderLine.setOrderHeader(orderHeader);
+        orderHeader.addOrderLine(orderLine);
 
         OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
 
