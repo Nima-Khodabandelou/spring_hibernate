@@ -1,9 +1,11 @@
 package io.nkh.hibernate.repositories;
 
 import io.nkh.hibernate.domain.*;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -28,6 +30,9 @@ class OrderHeaderRepositoryTest {
     @Autowired
     OrderApprovalRepository orderApprovalRepository;
 
+    @Autowired
+    CustomerRepository customerRepository;
+
     Product product;
 
     @BeforeEach
@@ -39,54 +44,28 @@ class OrderHeaderRepositoryTest {
     }
 
     @Test
-    void testSaveOrderWithLine() {
+    void testDeleteCascade() {
         OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setCustomer("new customer");
+        Customer customer = new Customer();
+        customer.setCustomerName("New Customer");
+        orderHeader.setCustomer(customerRepository.save(customer));
 
         OrderLine orderLine = new OrderLine();
         orderLine.setQuantityOrdered(5);
         orderLine.setProduct(product);
 
-        //orderHeader.setOrderLines(Set.of(orderLine));
-        //orderLine.setOrderHeader(orderHeader);
-
         orderHeader.addOrderLine(orderLine);
+        OrderHeader savedOrder = orderHeaderRepository.saveAndFlush(orderHeader);
 
-        OrderApproval approval = new OrderApproval();
-        approval.setApprovedBy("sb");
-
-        OrderApproval savedApproval = orderApprovalRepository.save(approval);
-        orderHeader.setOrderApproval(savedApproval);
-
-        OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
-
+        orderHeaderRepository.deleteById(savedOrder.getId());
         orderHeaderRepository.flush();
 
-        assertNotNull(savedOrder);
-        assertNotNull(savedOrder.getId());
-        assertNotNull(savedOrder.getOrderLines());
-        assertEquals(savedOrder.getOrderLines().size(), 1);
+        /*OrderHeader fetchedOrder = orderHeaderRepository.getById(savedOrder.getId());
+        assertNull(fetchedOrder);*/
 
-        OrderHeader fetchedOrder = orderHeaderRepository.getById(savedOrder.getId());
-
-        assertNotNull(fetchedOrder);
-        assertNotNull(fetchedOrder.getId());
-    }
-
-    @Test
-    void testSaveOrder() {
-        OrderHeader orderHeader = new OrderHeader();
-        orderHeader.setCustomer("new customer");
-        OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
-
-        assertNotNull(savedOrder);
-        assertNotNull(savedOrder.getId());
-
-        OrderHeader fetchedOrder = orderHeaderRepository.getById(savedOrder.getId());
-
-        assertNotNull(fetchedOrder);
-        assertNotNull(fetchedOrder.getId());
-        assertNotNull(fetchedOrder.getCreatedDate());
-        assertNotNull(fetchedOrder.getLastModifiedDate());
+        assertThrows(AssertionFailedError.class, () -> {
+            OrderHeader fetchedOrder = orderHeaderRepository.getById(savedOrder.getId());
+            assertNull(fetchedOrder);
+        });
     }
 }

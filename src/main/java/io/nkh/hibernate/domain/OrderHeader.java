@@ -43,8 +43,6 @@ import java.util.Set;
 })
 public class OrderHeader extends BaseEntity {
 
-    private String customer;
-
     @Embedded
     private Address shippingAddress;
     @Embedded
@@ -52,11 +50,14 @@ public class OrderHeader extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "orderHeader", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<OrderLine> orderLines;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private OrderApproval orderApproval;
+
+    @ManyToOne
+    private Customer customer;
 
     public void addOrderLine(OrderLine orderLine) {
         if (orderLines == null) {
@@ -65,22 +66,6 @@ public class OrderHeader extends BaseEntity {
 
         orderLines.add(orderLine);
         orderLine.setOrderHeader(this);
-    }
-
-    public OrderApproval getOrderApproval() {
-        return orderApproval;
-    }
-
-    public void setOrderApproval(OrderApproval orderApproval) {
-        this.orderApproval = orderApproval;
-    }
-
-    public String getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.customer = customer;
     }
 
     public Address getShippingAddress() {
@@ -115,21 +100,34 @@ public class OrderHeader extends BaseEntity {
         this.orderLines = orderLines;
     }
 
+    public OrderApproval getOrderApproval() {
+        return orderApproval;
+    }
+
+    public void setOrderApproval(OrderApproval orderApproval) {
+        this.orderApproval = orderApproval;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof OrderHeader)) return false;
         if (!super.equals(o)) return false;
         OrderHeader that = (OrderHeader) o;
-        return Objects.equals(getCustomer(), that.getCustomer()) && Objects.equals(getShippingAddress(),
-                that.getShippingAddress()) && Objects.equals(getBillToAddress(),
-                that.getBillToAddress()) && getOrderStatus() == that.getOrderStatus() && Objects.equals(getOrderLines(),
-                that.getOrderLines());
+        return Objects.equals(getShippingAddress(), that.getShippingAddress()) && Objects.equals(getBillToAddress(), that.getBillToAddress()) && getOrderStatus() == that.getOrderStatus() && Objects.equals(getOrderLines(), that.getOrderLines()) && Objects.equals(getOrderApproval(), that.getOrderApproval()) && Objects.equals(getCustomer(), that.getCustomer());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), getCustomer(), getShippingAddress(), getBillToAddress(), getOrderStatus(),
-                getOrderLines());
+        return Objects.hash(super.hashCode(), getShippingAddress(), getBillToAddress(), getOrderStatus(),
+                getOrderLines(), getCustomer());
     }
 }
