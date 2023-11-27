@@ -44,13 +44,19 @@ import java.util.Set;
 public class OrderHeader extends BaseEntity {
 
     private String customer;
+
+    @Embedded
     private Address shippingAddress;
+    @Embedded
     private Address billToAddress;
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.PERSIST)
     private Set<OrderLine> orderLines;
+
+    @OneToOne
+    private OrderApproval orderApproval;
 
     public void addOrderLine(OrderLine orderLine) {
         if (orderLines == null) {
@@ -59,6 +65,14 @@ public class OrderHeader extends BaseEntity {
 
         orderLines.add(orderLine);
         orderLine.setOrderHeader(this);
+    }
+
+    public OrderApproval getOrderApproval() {
+        return orderApproval;
+    }
+
+    public void setOrderApproval(OrderApproval orderApproval) {
+        this.orderApproval = orderApproval;
     }
 
     public String getCustomer() {

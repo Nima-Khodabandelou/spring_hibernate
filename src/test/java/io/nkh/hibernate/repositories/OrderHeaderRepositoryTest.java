@@ -1,9 +1,6 @@
 package io.nkh.hibernate.repositories;
 
-import io.nkh.hibernate.domain.OrderHeader;
-import io.nkh.hibernate.domain.OrderLine;
-import io.nkh.hibernate.domain.Product;
-import io.nkh.hibernate.domain.ProductStatus;
+import io.nkh.hibernate.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -28,6 +25,9 @@ class OrderHeaderRepositoryTest {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    OrderApprovalRepository orderApprovalRepository;
+
     Product product;
 
     @BeforeEach
@@ -51,6 +51,12 @@ class OrderHeaderRepositoryTest {
         //orderLine.setOrderHeader(orderHeader);
 
         orderHeader.addOrderLine(orderLine);
+
+        OrderApproval approval = new OrderApproval();
+        approval.setApprovedBy("sb");
+
+        OrderApproval savedApproval = orderApprovalRepository.save(approval);
+        orderHeader.setOrderApproval(savedApproval);
 
         OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
 
