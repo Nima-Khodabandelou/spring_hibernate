@@ -45,15 +45,17 @@ public class OrderHeader extends BaseEntity {
 
     @Embedded
     private Address shippingAddress;
+
     @Embedded
     private Address billToAddress;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "orderHeader", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<OrderLine> orderLines;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
     private OrderApproval orderApproval;
 
     @ManyToOne

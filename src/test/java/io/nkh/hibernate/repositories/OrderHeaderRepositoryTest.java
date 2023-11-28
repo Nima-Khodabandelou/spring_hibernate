@@ -46,14 +46,20 @@ class OrderHeaderRepositoryTest {
     @Test
     void testDeleteCascade() {
         OrderHeader orderHeader = new OrderHeader();
+
         Customer customer = new Customer();
         customer.setCustomerName("New Customer");
+
         orderHeader.setCustomer(customerRepository.save(customer));
 
         OrderLine orderLine = new OrderLine();
         orderLine.setQuantityOrdered(5);
         orderLine.setProduct(product);
 
+        OrderApproval orderApproval = new OrderApproval();
+        orderApproval.setApprovedBy("me");
+
+        orderHeader.setOrderApproval(orderApproval);
         orderHeader.addOrderLine(orderLine);
         OrderHeader savedOrder = orderHeaderRepository.saveAndFlush(orderHeader);
 
