@@ -36,7 +36,7 @@ public class DataLoadTest {
     @Autowired
     ProductRepository productRepository;
 
-    @Disabled // This method should not be executed within a test suit
+    //@Disabled // This method should not be executed within a test suite
     @Rollback(value = false) // tells spring boot to persist data to DB
     @Test
     void testDataLoader() {
@@ -63,7 +63,8 @@ public class DataLoadTest {
             OrderLine orderLine = new OrderLine();
             orderLine.setProduct(product);
             orderLine.setQuantityOrdered(random.nextInt(20));
-            orderHeader.getOrderLines().add(orderLine);
+            // orderHeader.getOrderLines().add(orderLine);
+            orderHeader.addOrderLine(orderLine);
         });
 
         return orderHeaderRepository.save(orderHeader);
