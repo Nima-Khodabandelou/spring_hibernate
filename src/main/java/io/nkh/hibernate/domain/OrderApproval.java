@@ -8,7 +8,7 @@ import jakarta.persistence.OneToOne;
 public class OrderApproval extends BaseEntity {
 
     @OneToOne
-    @JoinColumn(name = "order_header_id")
+    //@JoinColumn(name = "order_header_id")
     private OrderHeader orderHeader;
 
     private String approvedBy;
