@@ -36,6 +36,13 @@ public class DataLoadTest {
     @Autowired
     ProductRepository productRepository;
 
+    @Test
+    void testLazyVsEager() {
+        OrderHeader orderHeader = orderHeaderRepository.getById(187L);
+        System.out.println("Order Id is: " + orderHeader.getId());
+        System.out.println("Customer Name is: " + orderHeader.getCustomer().getCustomerName());
+    }
+
     //@Disabled // This method should not be executed within a test suite
     @Rollback(value = false) // tells spring boot to persist data to DB
     @Test
