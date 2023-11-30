@@ -13,8 +13,10 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @ActiveProfiles("dev")
 @DataJpaTest
@@ -35,6 +37,26 @@ public class DataLoadTest {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Test
+    void testDBLock() {
+        OrderHeader orderHeader = orderHeaderRepository.findById(1L).get();
+        Address billTo = new Address();
+        billTo.setAddress("Bill me");
+        orderHeader.setBillToAddress(billTo);
+        orderHeaderRepository.saveAndFlush(orderHeader);
+        System.out.println("I updated the order");
+    }
+
+    @Test
+    void testN_PlusOneProblem() {
+        Customer customer = customerRepository.findCustomerByCustomerNameIgnoreCase(TEST_CUSTOMER).get();
+
+        IntSummaryStatistics totalOrdered = orderHeaderRepository.findAllByCustomer(customer).stream()
+                .flatMap(orderHeader -> orderHeader.getOrderLines().stream())
+                .collect(Collectors.summarizingInt(ol -> ol.getQuantityOrdered()));
+        System.out.println("total ordered: " + totalOrdered.getSum());
+    }
 
     @Test
     void testLazyVsEager() {
