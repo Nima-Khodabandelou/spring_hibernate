@@ -3,21 +3,16 @@ package io.nkh.hibernate.bootstrap;
 import io.nkh.hibernate.domain.OrderHeader;
 import io.nkh.hibernate.repositories.OrderHeaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
-public class Bootstrap implements CommandLineRunner {
-
-    /*@Autowired
-    OrderHeaderRepository orderHeaderRepository;*/
-
+@Service
+public class BootstrapOrderService {
     @Autowired
-    BootstrapOrderService bootstrapOrderService;
+    OrderHeaderRepository orderHeaderRepository;
 
-    //@Transactional
-    /*public void readOrderData() {
+    @Transactional
+    public void readOrderData() {
         OrderHeader orderHeader = orderHeaderRepository.findById(1L).get();
 
         orderHeader.getOrderLines().forEach(ol -> {
@@ -27,11 +22,5 @@ public class Bootstrap implements CommandLineRunner {
                 System.out.println("Category description is: " + cat.getDescription());
             });
         });
-    }*/
-
-    //@Transactional
-    @Override
-    public void run(String... args) throws Exception {
-        bootstrapOrderService.readOrderData();
     }
 }
