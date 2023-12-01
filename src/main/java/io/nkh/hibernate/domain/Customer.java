@@ -1,9 +1,6 @@
 package io.nkh.hibernate.domain;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.data.domain.Sort;
 
 import java.util.LinkedHashSet;
@@ -16,6 +13,9 @@ public class Customer extends BaseEntity {
     private String customerName;
     private String phone;
     private String email;
+
+    @Version
+    private Integer version;
 
     @Embedded
     private Address address;
@@ -61,5 +61,13 @@ public class Customer extends BaseEntity {
 
     public void setOrders(Set<OrderHeader> orders) {
         this.orders = orders;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

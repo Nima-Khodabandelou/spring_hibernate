@@ -72,7 +72,7 @@ public class DataLoadTest {
         List<Product> products = loadProducts();
         Customer customer = loadCustomers();
 
-        int ordersToCreate = 100;
+        int ordersToCreate = 10;
 
         for (int i = 0; i < ordersToCreate; i++){
             System.out.println("Creating order #: " + i);

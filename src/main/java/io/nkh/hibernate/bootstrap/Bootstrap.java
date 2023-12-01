@@ -1,6 +1,8 @@
 package io.nkh.hibernate.bootstrap;
 
+import io.nkh.hibernate.domain.Customer;
 import io.nkh.hibernate.domain.OrderHeader;
+import io.nkh.hibernate.repositories.CustomerRepository;
 import io.nkh.hibernate.repositories.OrderHeaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +17,9 @@ public class Bootstrap implements CommandLineRunner {
 
     @Autowired
     BootstrapOrderService bootstrapOrderService;
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     //@Transactional
     /*public void readOrderData() {
@@ -33,5 +38,22 @@ public class Bootstrap implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         bootstrapOrderService.readOrderData();
+
+        Customer customer = new Customer();
+
+        customer.setCustomerName("Testing Version");
+        Customer savedCustomer = customerRepository.save(customer);
+        System.out.println("Version is: " + savedCustomer.getVersion());
+
+        savedCustomer.setCustomerName("Testing Version 2");
+        Customer savedCustomer2 = customerRepository.save(savedCustomer);
+        System.out.println("Version is: " + savedCustomer2.getVersion());
+
+        savedCustomer2.setCustomerName("Testing Version 3");
+        Customer savedCustomer3 = customerRepository.save(savedCustomer2);
+        System.out.println("Version is: " + savedCustomer3.getVersion());
+
+        //customerRepository.deleteById(savedCustomer.getId());
+        customerRepository.delete(savedCustomer3);
     }
 }
