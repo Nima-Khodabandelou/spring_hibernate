@@ -1,7 +1,7 @@
 package io.nkh.hibernate.bootstrap;
 
 import io.nkh.hibernate.domain.OrderHeader;
-import io.nkh.hibernate.repositories.OrderHeaderRepository;
+import io.nkh.hibernate.repository.OrderHeaderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

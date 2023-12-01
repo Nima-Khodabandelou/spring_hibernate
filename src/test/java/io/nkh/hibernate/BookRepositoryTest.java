@@ -1,8 +1,7 @@
 package io.nkh.hibernate;
 
 import io.nkh.hibernate.domain.Book;
-import io.nkh.hibernate.repositories.BookRepository;
-import org.junit.jupiter.api.RepeatedTest;
+import io.nkh.hibernate.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

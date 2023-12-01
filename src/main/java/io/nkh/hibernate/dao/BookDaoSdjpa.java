@@ -1,7 +1,7 @@
 package io.nkh.hibernate.dao;
 
 import io.nkh.hibernate.domain.Book;
-import io.nkh.hibernate.repositories.BookRepository;
+import io.nkh.hibernate.repository.BookRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

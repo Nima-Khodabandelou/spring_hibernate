@@ -1,17 +1,14 @@
 package io.nkh.hibernate.dao;
 
 import io.nkh.hibernate.domain.Author;
-import io.nkh.hibernate.repositories.AuthorRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 /**

@@ -1,11 +1,10 @@
 package io.nkh.hibernate.dao;
 
 import io.nkh.hibernate.domain.Author;
-import io.nkh.hibernate.repositories.AuthorRepository;
+import io.nkh.hibernate.repository.AuthorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 

@@ -65,6 +65,9 @@ public class OrderHeader extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Customer customer;
 
+    @Version
+    private Integer version;
+
     public void addOrderLine(OrderLine orderLine) {
         if (orderLines == null) {
             orderLines = new HashSet<>();
@@ -121,6 +124,14 @@ public class OrderHeader extends BaseEntity {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     @Override

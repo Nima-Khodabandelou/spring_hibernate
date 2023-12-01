@@ -1,4 +1,4 @@
-package io.nkh.hibernate.repositories;
+package io.nkh.hibernate.repository;
 
 import io.nkh.hibernate.domain.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;

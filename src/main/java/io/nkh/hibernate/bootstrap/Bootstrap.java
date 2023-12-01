@@ -1,13 +1,10 @@
 package io.nkh.hibernate.bootstrap;
 
 import io.nkh.hibernate.domain.Customer;
-import io.nkh.hibernate.domain.OrderHeader;
-import io.nkh.hibernate.repositories.CustomerRepository;
-import io.nkh.hibernate.repositories.OrderHeaderRepository;
+import io.nkh.hibernate.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class Bootstrap implements CommandLineRunner {

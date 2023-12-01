@@ -1,10 +1,9 @@
 package io.nkh.hibernate;
 
 import io.nkh.hibernate.domain.*;
-import io.nkh.hibernate.repositories.CustomerRepository;
-import io.nkh.hibernate.repositories.OrderHeaderRepository;
-import io.nkh.hibernate.repositories.ProductRepository;
-import org.junit.jupiter.api.Disabled;
+import io.nkh.hibernate.repository.CustomerRepository;
+import io.nkh.hibernate.repository.OrderHeaderRepository;
+import io.nkh.hibernate.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
