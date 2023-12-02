@@ -7,6 +7,7 @@ import org.opentest4j.AssertionFailedError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,6 +38,34 @@ class OrderHeaderRepositoryTest {
         newProduct.setProductStatus(ProductStatus.NEW);
         newProduct.setDescription("test product");
         product = productRepository.saveAndFlush(newProduct);
+    }
+
+    @Rollback(value = false)
+    @Test
+    void saveOrder() {
+        OrderHeader orderHeader = new OrderHeader();
+        Customer customer = new Customer();
+        customer.setCustomerName("New Customer 4");
+        customer.setPhone("298471946");
+
+        Address address = new Address();
+        address.setCity("dffffffffffffffffffffff");
+        customer.setAddress(address);
+
+        Customer savedCustomer = customerRepository.save(customer);
+
+        orderHeader.setCustomer(savedCustomer);
+        OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
+
+        assertNotNull(savedOrder);
+        assertNotNull(savedOrder.getId());
+
+        OrderHeader fetchedOrder = orderHeaderRepository.getById(savedOrder.getId());
+
+        assertNotNull(fetchedOrder);
+        assertNotNull(fetchedOrder.getId());
+        assertNotNull(fetchedOrder.getCreatedDate());
+        assertNotNull(fetchedOrder.getLastModifiedDate());
     }
 
     @Test

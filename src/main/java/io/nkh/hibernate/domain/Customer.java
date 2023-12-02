@@ -1,6 +1,8 @@
 package io.nkh.hibernate.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Sort;
 
 import java.util.LinkedHashSet;
@@ -10,13 +12,17 @@ import java.util.Set;
 @Table(name = "customer")
 public class Customer extends BaseEntity {
 
+    @Length(max = 50)
     private String customerName;
+
+    @Length(max = 20)
     private String phone;
     private String email;
 
     @Version
     private Integer version;
 
+    @Valid
     @Embedded
     private Address address;
 
