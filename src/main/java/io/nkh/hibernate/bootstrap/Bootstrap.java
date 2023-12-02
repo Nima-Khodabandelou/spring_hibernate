@@ -34,7 +34,7 @@ public class Bootstrap implements CommandLineRunner {
     //@Transactional
     @Override
     public void run(String... args) throws Exception {
-        bootstrapOrderService.readOrderData();
+        /*bootstrapOrderService.readOrderData();
 
         Customer customer = new Customer();
 
@@ -51,6 +51,6 @@ public class Bootstrap implements CommandLineRunner {
         System.out.println("Version is: " + savedCustomer3.getVersion());
 
         //customerRepository.deleteById(savedCustomer.getId());
-        customerRepository.delete(savedCustomer3);
+        customerRepository.delete(savedCustomer3);*/
     }
 }
