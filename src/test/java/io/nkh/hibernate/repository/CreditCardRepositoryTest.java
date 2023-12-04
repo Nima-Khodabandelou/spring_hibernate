@@ -45,8 +45,7 @@ class CreditCardRepositoryTest {
 
         System.out.println("CC encrypted: " + encryptionService.encrypt(CREDIT_CARD));
 
-        Map<String, Object> dbRow = jdbcTemplate.queryForMap("SELECT * FROM credit_card WHERE id = " +
-                savedCC.getId());
+        Map<String, Object> dbRow = jdbcTemplate.queryForMap("SELECT * FROM credit_card WHERE id = " +  savedCC.getId());
 
         String dbCardValue = (String) dbRow.get("credit_card_number");
 
@@ -57,6 +56,4 @@ class CreditCardRepositoryTest {
 
         assertEquals(savedCC.getCreditCardNumber(), fetchedCC.getCreditCardNumber());
     }
-
-
 }

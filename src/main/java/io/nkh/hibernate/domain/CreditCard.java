@@ -1,5 +1,6 @@
 package io.nkh.hibernate.domain;
 
+import io.nkh.hibernate.interceptor.EncryptedString;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +14,7 @@ public class CreditCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @EncryptedString
     private String creditCardNumber;
 
     private String cvv;
